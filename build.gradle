@@ -229,8 +229,8 @@ String parserChangelog() {
 }
 
 def injectTags() {
-    var target = new File("${rootProject.projectDir}/src/main/java/${root_package.replace('.', '/')}/${mod_id}/Reference.java")
-    var template = new File("${rootProject.projectDir}/template/Reference.java")
+    var target = new File("${rootProject.projectDir}/src/main/scala/${root_package.replace('.', '/')}/${mod_id}/Reference.scala")
+    var template = new File("${rootProject.projectDir}/template/Reference.scala")
     var replaceMap = [$mod_id : mod_id, $mod_name : mod_name, $mod_version : mod_version]
     target.withWriter { var writer ->
         template.eachLine { var line ->
