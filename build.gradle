@@ -72,13 +72,17 @@ unimined.minecraft {
             accessTransformer 'src/main/resources/META-INF/' +  propertyString('access_transformer_locations')
         }
         loader "0.3.0-alpha"
-        runs.config("client") {
-            jvmArgs extra_jvm_args
-        }
-        runs.config("server") {
-            jvmArgs extra_jvm_args
-        }
         runs.auth.username = minecraft_username
+        runs.all {
+            if (hasProperty("extra_jvm_args")) {
+                jvmArgs(propertyString('extra_jvm_args'))
+            }
+            if (propertyBool('enable_foundation_debug')) {
+                systemProperty("foundation.dump", "true")
+                systemProperty("foundation.verbose", "true")
+            }
+            return
+        }
     }
 
 
