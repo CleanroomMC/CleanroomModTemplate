@@ -11,6 +11,10 @@ repositories {
         name 'Modrinth'
         url 'https://api.modrinth.com/maven'
     }
+    maven {
+        name "outlandsReleases"
+        url "https://maven.arcseekers.com/releases"
+    }
     mavenLocal() // Must be last for caching to work
 }
 
@@ -18,7 +22,7 @@ dependencies {
     compileOnly "com.cleanroommc:sponge-mixin:0.20.10+mixin.0.8.7"
     compileOnly "com.cleanroommc:lwjglx:1.0.0"
 
-    implementation "com.cleanroommc:scalar:1.0.0"
+    runtimeOnly "com.cleanroommc:scalar:1.0.0"
 
     // Example - Dependency descriptor:
     // 'com.google.code.gson:gson:2.8.6' << group: com.google.code.gson, name:gson, version:2.8.6
