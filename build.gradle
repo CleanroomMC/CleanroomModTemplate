@@ -1,12 +1,10 @@
 import org.jetbrains.changelog.Changelog
-import org.jetbrains.gradle.ext.Gradle
 
 plugins {
     id 'java'
     id 'scala'
     id 'java-library'
     id 'maven-publish'
-    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.10'
     id 'com.gradleup.shadow' version '9.0.0-beta12' // Remove this line and shadowJar task if you don't need shadow
     id 'org.jetbrains.changelog' version '2.2.1'
     id 'xyz.wagyourtail.unimined' version '1.3.14'
@@ -69,7 +67,7 @@ unimined.minecraft {
 
     cleanroom {
         if (propertyBool('use_access_transformer')) {
-            accessTransformer 'src/main/resources/META-INF/' +  propertyString('access_transformer_locations')
+            accessTransformer 'src/main/resources/' +  propertyString('access_transformer_locations')
         }
         loader "0.3.0-alpha"
         runs.auth.username = minecraft_username
@@ -135,6 +133,7 @@ processResources {
         )
     }
 
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 jar {
@@ -163,7 +162,9 @@ jar {
             attributes(attribute_map)
         }
     }
-    finalizedBy(shadowJar)
+    if (propertyBool('enable_shadow')) {
+        finalizedBy(shadowJar)
+    }
 }
 
 tasks.remapJar {
@@ -178,38 +179,6 @@ tasks.remapJar {
 shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier = "shadow"
-}
-
-idea {
-    module {
-        inheritOutputDirs = true
-    }
-    project {
-        settings {
-            runConfigurations {
-                "1. Run Client"(Gradle) {
-                    taskNames = ["runClient"]
-                }
-                "2. Run Server"(Gradle) {
-                    taskNames = ["runServer"]
-                }
-                "3. Run Obfuscated Client"(Gradle) {
-                    taskNames = ["runObfClient"]
-                }
-                "4. Run Obfuscated Server"(Gradle) {
-                    taskNames = ["runObfServer"]
-                }
-            }
-            compiler.javac {
-                afterEvaluate {
-                    javacAdditionalOptions = "-encoding utf8"
-                    moduleJavacAdditionalOptions = [
-                            (project.name + ".main"): tasks.compileJava.options.compilerArgs.collect { '"' + it + '"' }.join(' ')
-                    ]
-                }
-            }
-        }
-    }
 }
 
 compileTestJava {
@@ -255,16 +224,6 @@ def injectTags() {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-}
-
-tasks.register('cleanroomAfterSync') {
-    group 'cleanroom helpers'
-}
-
-idea.project.settings {
-    taskTriggers {
-        afterSync 'cleanroomAfterSync'
-    }
 }
 
 apply from: 'gradle/scripts/publishing.gradle'
