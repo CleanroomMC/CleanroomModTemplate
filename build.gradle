@@ -67,7 +67,7 @@ unimined.minecraft {
 
     cleanroom {
         if (propertyBool('use_access_transformer')) {
-            accessTransformer 'src/main/resources/' +  propertyString('access_transformer_locations')
+            accessTransformer "${rootProject.projectDir}/src/main/resources/" +  propertyString('access_transformer_locations')
         }
         loader "0.3.0-alpha"
         runs.auth.username = minecraft_username
