@@ -18,7 +18,9 @@ assertProperty 'root_package'
 assertProperty 'mod_id'
 assertProperty 'mod_name'
 
-injectTags()
+if (propertyBool('generate_reference_class')) {
+    generateReferenceClass()
+}
 
 assertSubProperties 'use_access_transformer', 'access_transformer_locations'
 assertSubProperties 'is_coremod', 'coremod_includes_mod', 'coremod_plugin_class_name'
@@ -211,7 +213,8 @@ String parserChangelog() {
     return parsedChangelog
 }
 
-def injectTags() {
+
+def generateReferenceClass() {
     var target = new File("${rootProject.projectDir}/src/main/scala/${root_package.replace('.', '/')}/${mod_id}/Reference.scala")
     var template = new File("${rootProject.projectDir}/template/Reference.scala")
     var replaceMap = [$mod_id : mod_id, $mod_name : mod_name, $mod_version : mod_version]
