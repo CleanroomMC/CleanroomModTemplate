@@ -26,4 +26,4 @@ gradle-app.setting
 .idea
 
 # Source inject target, change it to your class
-src/main/java/com/example/modid/Reference.scala
+src/main/scala/com/example/modid/Reference.scala
