@@ -217,7 +217,7 @@ String parserChangelog() {
 def generateReferenceClass() {
     var target = new File("${rootProject.projectDir}/src/main/scala/${root_package.replace('.', '/')}/${mod_id}/Reference.scala")
     var template = new File("${rootProject.projectDir}/template/Reference.scala")
-    var replaceMap = [$mod_id : mod_id, $mod_name : mod_name, $mod_version : mod_version]
+    var replaceMap = [$package : "${root_package}.${mod_id}", $mod_id : mod_id, $mod_name : mod_name, $mod_version : mod_version]
     target.withWriter { var writer ->
         template.eachLine { var line ->
             replaceMap.each {if (line.contains(it.key)) line = line.replace(it.key, it.value)}
