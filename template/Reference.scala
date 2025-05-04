@@ -1,4 +1,4 @@
-package com.example.modid;
+package $package;
 
 /**
  * Tags storage class, you can change at will
