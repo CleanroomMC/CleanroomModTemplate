@@ -58,6 +58,7 @@ configurations {
     embed
     contain
     implementation.extendsFrom(embed)
+    implementation.extendsFrom(contain)
 }
 
 unimined.minecraft {
