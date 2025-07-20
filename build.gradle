@@ -5,7 +5,7 @@ plugins {
     id 'scala'
     id 'java-library'
     id 'maven-publish'
-    id 'com.gradleup.shadow' version '9.0.0-beta12' // Remove this line and shadowJar task if you don't need shadow
+    id 'com.gradleup.shadow' version '9.0.0-rc1' // Remove this line and shadowJar task if you don't need shadow
     id 'org.jetbrains.changelog' version '2.2.1'
     id 'xyz.wagyourtail.unimined' version '1.4.1'
 }
@@ -59,6 +59,8 @@ configurations {
     contain
     implementation.extendsFrom(embed)
     implementation.extendsFrom(contain)
+    modCompileOnly
+    compileOnly.extendsFrom modCompileOnly
 }
 
 unimined.minecraft {
@@ -75,8 +77,9 @@ unimined.minecraft {
         loader "0.3.10-alpha"
         runs.auth.username = minecraft_username
         runs.all {
-            if (hasProperty("extra_jvm_args")) {
-                jvmArgs(propertyString('extra_jvm_args'))
+            def extraArgs = propertyString('extra_jvm_args')
+            if (extraArgs != null && !extraArgs.trim().isEmpty()) {
+                jvmArgs += extraArgs.split("\\s+").toList()
             }
             if (propertyBool('enable_foundation_debug')) {
                 var map = getSystemProperties()
@@ -87,13 +90,18 @@ unimined.minecraft {
         }
     }
 
+    defaultRemapJar = false
 
-}
+    remap(tasks.shadowJar) {
+        mixinRemap {
+            enableBaseMixin()
+            enableMixinExtra()
+            disableRefmap()
+        }
+    }
 
-repositories {
-    maven {
-        name 'CleanroomMC Maven'
-        url 'https://maven.cleanroommc.com'
+    mods{
+        remap(configurations.modCompileOnly)
     }
 }
 
@@ -168,18 +176,10 @@ jar {
         }
     }
     if (propertyBool('enable_shadow')) {
-        finalizedBy(shadowJar)
+        finalizedBy(tasks.named("remapShadowJar"))
     }
 }
 
-tasks.remapJar {
-    doFirst {
-        logging.captureStandardOutput LogLevel.INFO
-    }
-    doLast {
-        logging.captureStandardOutput LogLevel.QUIET
-    }
-}
 
 shadowJar {
     configurations = [project.configurations.shadow]
