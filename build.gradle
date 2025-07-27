@@ -92,15 +92,25 @@ unimined.minecraft {
 
     defaultRemapJar = false
 
-    remap(tasks.shadowJar) {
-        mixinRemap {
-            enableBaseMixin()
-            enableMixinExtra()
-            disableRefmap()
+    if (propertyBool('enable_shadow')) {
+        remap(tasks.shadowJar) {
+            mixinRemap {
+                enableBaseMixin()
+                enableMixinExtra()
+                disableRefmap()
+            }
+        }
+    } else {
+        remap(tasks.jar) {
+            mixinRemap {
+                enableBaseMixin()
+                enableMixinExtra()
+                disableRefmap()
+            }
         }
     }
 
-    mods{
+    mods {
         remap(configurations.modCompileOnly)
     }
 }
@@ -155,7 +165,7 @@ jar {
             from configurations.contain
         }
     }
-    doFirst{
+    doFirst {
         manifest {
             def attribute_map = [:]
             attribute_map['ModType'] = "CRL"
@@ -177,6 +187,8 @@ jar {
     }
     if (propertyBool('enable_shadow')) {
         finalizedBy(tasks.named("remapShadowJar"))
+    } else {
+        finalizedBy(tasks.named("remapJar"))
     }
 }
 
