@@ -1,13 +1,11 @@
-import org.jetbrains.changelog.Changelog
-
 plugins {
     id 'java'
     id 'scala'
     id 'java-library'
     id 'maven-publish'
-    id 'com.gradleup.shadow' version '9.0.0-rc3' // Remove this line and shadowJar task if you don't need shadow
-    id 'org.jetbrains.changelog' version '2.2.1'
+    id 'com.gradleup.shadow' version '9.0.2'
     id 'xyz.wagyourtail.unimined' version '1.4.1'
+    id 'net.kyori.blossom'  version '2.1.0'
 }
 
 apply from: 'gradle/scripts/helpers.gradle'
@@ -17,10 +15,6 @@ assertProperty 'mod_version'
 assertProperty 'root_package'
 assertProperty 'mod_id'
 assertProperty 'mod_name'
-
-if (propertyBool('generate_reference_class')) {
-    generateReferenceClass()
-}
 
 assertSubProperties 'use_access_transformer', 'access_transformer_locations'
 assertSubProperties 'is_coremod', 'coremod_includes_mod', 'coremod_plugin_class_name'
@@ -60,7 +54,9 @@ configurations {
     implementation.extendsFrom(embed)
     implementation.extendsFrom(contain)
     modCompileOnly
-    compileOnly.extendsFrom modCompileOnly
+    compileOnly.extendsFrom(modCompileOnly)
+    modRuntimeOnly
+    runtimeOnly.extendsFrom(modRuntimeOnly)
 }
 
 unimined.minecraft {
@@ -158,6 +154,23 @@ processResources {
     rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
+sourceSets {
+    main {
+        blossom {
+            scalaSources {
+                property('mod_id', propertyString('mod_id'))
+                property('mod_name', propertyString('mod_name'))
+                property('mod_version', propertyString('mod_version'))
+                property('package', "${root_package}.${mod_id}")
+            }
+        }
+    }
+}
+
+if (!propertyBool('enable_shadow')) {
+    shadowJar.enabled = false
+}
+
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     if (configurations.contain.size() > 0) {
@@ -198,6 +211,15 @@ shadowJar {
     archiveClassifier = "shadow"
 }
 
+remapJar {
+    doFirst {
+        logging.captureStandardOutput LogLevel.INFO
+    }
+    doLast {
+        logging.captureStandardOutput LogLevel.QUIET
+    }
+}
+
 compileTestJava {
     sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
 }
@@ -214,33 +236,13 @@ test {
     }
 }
 
-String parserChangelog() {
-    if (!file('CHANGELOG.md').exists()) {
-        throw new GradleException('publish_with_changelog is true, but CHANGELOG.md does not exist in the workspace!')
-    }
-    String parsedChangelog = changelog.renderItem(
-            changelog.get(propertyString('mod_version')).withHeader(false).withEmptySections(false),
-            Changelog.OutputType.MARKDOWN)
-    if (parsedChangelog.isEmpty()) {
-        throw new GradleException('publish_with_changelog is true, but the changelog for the latest version is empty!')
-    }
-    return parsedChangelog
-}
 
-
-def generateReferenceClass() {
-    var target = new File("${rootProject.projectDir}/src/main/scala/${root_package.replace('.', '/')}/${mod_id}/Reference.scala")
-    var template = new File("${rootProject.projectDir}/template/Reference.scala")
-    var replaceMap = [$package : "${root_package}.${mod_id}", $mod_id : mod_id, $mod_name : mod_name, $mod_version : mod_version]
-    target.withWriter { var writer ->
-        template.eachLine { var line ->
-            replaceMap.each {if (line.contains(it.key)) line = line.replace(it.key, it.value)}
-            writer.write(line + "\n");
-        }
-    }
-}
 
 tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(ScalaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
