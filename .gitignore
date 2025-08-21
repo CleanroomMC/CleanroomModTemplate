@@ -22,6 +22,9 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+# kotlin
+.kotlin/
+
 # IDEA config
 .idea
 

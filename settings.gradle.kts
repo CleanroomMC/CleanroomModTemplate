@@ -2,21 +2,21 @@ pluginManagement {
     repositories {
         mavenCentral()
         maven {
-            url = "https://maven.neoforged.net/releases"
+            setUrl("https://maven.neoforged.net/releases")
         }
         maven {
-            url = "https://maven.minecraftforge.net/"
+            setUrl("https://maven.minecraftforge.net/")
         }
         maven {
-            url = "https://maven.fabricmc.net/"
+            setUrl("https://maven.fabricmc.net/")
         }
         maven {
-            url = "https://maven.wagyourtail.xyz/releases"
+            setUrl("https://maven.wagyourtail.xyz/releases")
         }
         maven {
-            url = "https://maven.wagyourtail.xyz/snapshots"
+            setUrl("https://maven.wagyourtail.xyz/snapshots")
         }
-        gradlePluginPortal() {
+        gradlePluginPortal {
             content {
                 excludeGroup("org.apache.logging.log4j")
             }
@@ -26,9 +26,9 @@ pluginManagement {
 
 plugins {
     // Automatic toolchain provisioning
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }
 
 // Due to an IntelliJ bug, this has to be done
 // rootProject.name = archives_base_name
-rootProject.name = rootProject.projectDir.getName()
+rootProject.name = rootProject.projectDir.name

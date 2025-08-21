@@ -1,23 +1,24 @@
-apply from: 'gradle/scripts/helpers.gradle'
+plugins {
+    java
+}
 
 repositories {
     // Other repositories described by default:
     // CleanroomMC: https://maven.cleanroommc.com
     maven {
-        name 'CurseMaven'
-        url 'https://curse.cleanroommc.com'
+        name = "CurseMaven"
+        setUrl("https://curse.cleanroommc.com")
     }
     maven {
-        name 'Modrinth'
-        url 'https://api.modrinth.com/maven'
+        name = "Modrinth"
+        setUrl("https://api.modrinth.com/maven")
     }
     mavenLocal() // Must be last for caching to work
 }
-
 dependencies {
-    compileOnly "com.cleanroommc:sponge-mixin:0.20.10+mixin.0.8.7"
-    if (propertyBool('enable_lwjglx')) {
-        compileOnly "com.cleanroommc:lwjglx:1.0.0"
+    compileOnly("com.cleanroommc:sponge-mixin:0.20.10+mixin.0.8.7")
+    if (propertyBool("enable_lwjglx")) {
+        compileOnly("com.cleanroommc:lwjglx:1.0.0")
     }
 
     // Example - Dependency descriptor:
