@@ -28,7 +28,7 @@ You should change its location to fit your new package name.
 You can find it under `src/main/java-templates`.
 
 ### Dependencies
-You can find dependency script in `gradle/scripts/dependencies.gradle`.
+You can find dependency script in `buildSrc/src/main/kotlin/dependencies.gradle.kts`.
 
 No more `rfg.deobf()` or `fg.deobf` for mods, you should use `modImplementation`, `modCompileOnly` and `modRuntimeOnly`.
 

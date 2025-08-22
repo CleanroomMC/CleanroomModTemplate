@@ -4,6 +4,7 @@ plugins {
     java
     `java-library`
     `maven-publish`
+    kotlin("jvm") version "2.2.10"
     id("com.gradleup.shadow") version "9.0.2"
     id("xyz.wagyourtail.unimined") version "1.4.1"
     id("net.kyori.blossom") version "2.1.0"
@@ -156,7 +157,7 @@ tasks.processResources {
 sourceSets {
     main {
         blossom {
-            javaSources {
+            kotlinSources {
                 property("mod_id", propertyString("mod_id"))
                 property("mod_name", propertyString("mod_name"))
                 property("mod_version", propertyString("mod_version"))
