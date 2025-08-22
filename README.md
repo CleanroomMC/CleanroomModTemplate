@@ -75,3 +75,7 @@ This template comes with three workflows.
 You need to fill in your project IDs and configure your tokens in GitHub repository first.
 
 By default, you will need to manually trigger the workflow in web page, but you can also enable tag triggering by merging it into `release.yml`.
+
+### Credit
+Thanks @Karnatour for fixing shadow plugin
+Thanks @ghostflyby for making kotlin branch
