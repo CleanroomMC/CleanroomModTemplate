@@ -61,13 +61,14 @@ Rename AT file name to your modid before using it. There's an example entry in A
 **WARNING**: ATs from dependency won't be applied to vanilla source. 
 
 ### Source Code with Comments
-
 Run `genSources` task in gradle.
 
 If you want to `find usage` from vanilla like RFG, just change the scope in IntelliJ settings.
 
 ### Running Client or Server
-You MUST add mods by using `modImplementation` or `modRuntimeOnly`, or mapping and ATs will break.
+You **MUST** add mods by using `modImplementation` or `modRuntimeOnly`, or mapping and ATs will break.
+
+If you are using IntelliJ, **DO NOT** use the `Minecraft Client` configure with a blue icon. Just use the `runClient` Gradle task.
 
 ### GitHub Action
 This template comes with three workflows.
