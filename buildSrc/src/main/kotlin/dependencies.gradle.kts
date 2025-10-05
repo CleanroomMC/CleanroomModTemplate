@@ -21,7 +21,7 @@ repositories {
 }
 dependencies {
     compileOnly("com.cleanroommc:sponge-mixin:0.20.10+mixin.0.8.7")
-    implementation("io.github.chaosunity.forgelin:Forgelin-Continuous:2.2.0.0")
+    implementation("io.github.chaosunity.forgelin:Forgelin-Continuous:2.2.20.0")
     if (propertyBool("enable_lwjglx")) {
         compileOnly("com.cleanroommc:lwjglx:1.0.0")
     }
