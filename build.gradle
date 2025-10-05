@@ -70,7 +70,7 @@ unimined.minecraft {
         if (propertyBool('use_access_transformer')) {
             accessTransformer "${rootProject.projectDir}/src/main/resources/" +  propertyString('access_transformer_locations')
         }
-        loader "0.3.13-alpha"
+        loader "0.3.17-alpha"
         runs.auth.username = minecraft_username
         runs.all {
             def extraArgs = propertyString('extra_jvm_args')
@@ -78,9 +78,11 @@ unimined.minecraft {
                 jvmArgs += extraArgs.split("\\s+").toList()
             }
             if (propertyBool('enable_foundation_debug')) {
-                var map = getSystemProperties()
-                map.put("foundation.dump", "true")
-                map.put("foundation.verbose", "true")
+                systemProperty("foundation.dump", "true")
+                systemProperty("foundation.verbose", "true")
+            }
+            if (propertyBool('is_coremod')) {
+                systemProperty("fml.coreMods.load", propertyString('coremod_plugin_class_name'))
             }
             return
         }
