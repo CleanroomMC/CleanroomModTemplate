@@ -16,6 +16,9 @@ pluginManagement {
         maven {
             setUrl("https://maven.wagyourtail.xyz/snapshots")
         }
+        maven {
+            setUrl("https://maven.outlands.top/releases")
+        }
         gradlePluginPortal {
             content {
                 excludeGroup("org.apache.logging.log4j")
@@ -26,7 +29,7 @@ pluginManagement {
 
 plugins {
     // Automatic toolchain provisioning
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 // Due to an IntelliJ bug, this has to be done
