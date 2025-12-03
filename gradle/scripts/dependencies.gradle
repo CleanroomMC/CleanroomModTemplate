@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "com.cleanroommc:sponge-mixin:0.20.10+mixin.0.8.7"
+    compileOnly "com.cleanroommc:sponge-mixin:0.20.12+mixin.0.8.7"
     if (propertyBool('enable_lwjglx')) {
         compileOnly "com.cleanroommc:lwjglx:1.0.0"
     }

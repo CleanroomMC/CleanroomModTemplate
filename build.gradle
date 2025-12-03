@@ -3,8 +3,8 @@ plugins {
     id 'scala'
     id 'java-library'
     id 'maven-publish'
-    id 'com.gradleup.shadow' version '9.0.2'
-    id 'xyz.wagyourtail.unimined' version '1.4.1'
+    id 'com.gradleup.shadow' version '9.2.2'
+    id 'xyz.wagyourtail.unimined' version '1.4.7-kappa'
     id 'net.kyori.blossom'  version '2.1.0'
 }
 
@@ -70,7 +70,7 @@ unimined.minecraft {
         if (propertyBool('use_access_transformer')) {
             accessTransformer "${rootProject.projectDir}/src/main/resources/" +  propertyString('access_transformer_locations')
         }
-        loader "0.3.17-alpha"
+        loader "0.3.27-alpha"
         runs.auth.username = minecraft_username
         runs.all {
             def extraArgs = propertyString('extra_jvm_args')
@@ -110,6 +110,7 @@ unimined.minecraft {
 
     mods {
         remap(configurations.modCompileOnly)
+        remap(configurations.modRuntimeOnly)
     }
 }
 
