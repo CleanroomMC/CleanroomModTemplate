@@ -4,7 +4,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'com.gradleup.shadow' version '9.2.2'
-    id 'xyz.wagyourtail.unimined' version '1.4.7-kappa'
+    id 'xyz.wagyourtail.unimined' version '1.4.9-kappa'
     id 'net.kyori.blossom'  version '2.1.0'
 }
 
@@ -68,14 +68,14 @@ unimined.minecraft {
 
     cleanroom {
         if (propertyBool('use_access_transformer')) {
-            accessTransformer "${rootProject.projectDir}/src/main/resources/" +  propertyString('access_transformer_locations')
+            accessTransformer "${rootProject.projectDir}/src/main/resources/${propertyString('access_transformer_locations')}"
         }
-        loader "0.3.27-alpha"
+        loader "0.3.31-alpha"
         runs.auth.username = minecraft_username
         runs.all {
             def extraArgs = propertyString('extra_jvm_args')
             if (extraArgs != null && !extraArgs.trim().isEmpty()) {
-                jvmArgs += extraArgs.split("\\s+").toList()
+                jvmArgs += extraArgs.split { "\\s+" }.toList()
             }
             if (propertyBool('enable_foundation_debug')) {
                 systemProperty("foundation.dump", "true")
