@@ -29,16 +29,16 @@ version = propertyString('mod_version')
 group = propertyString('root_package')
 
 base {
-    archivesName.set(propertyString('mod_id'))
+    archivesName = propertyString('mod_id') as String
 }
 
 scala {
-    scalaVersion = '3.7.4'
+    scalaVersion = '3.8.0-RC4'
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion = JavaLanguageVersion.of(21)
     }
     if (propertyBool('generate_sources_jar')) {
         withSourcesJar()
