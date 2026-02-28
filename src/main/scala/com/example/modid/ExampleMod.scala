@@ -1,6 +1,7 @@
 package com.example.modid
 
-import net.minecraftforge.fml.common.Mod
+import com.example.modid.proxy.IProxy
+import net.minecraftforge.fml.common.{Mod, SidedProxy}
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -10,6 +11,8 @@ import org.apache.logging.log4j.Logger
 object ExampleMod {
 
   val LOGGER: Logger = LogManager.getLogger(Reference.MOD_NAME)
+  @SidedProxy(modId = Reference.MOD_ID, clientSide = "com.example.modid.proxy.ClientProxy", serverSide = "com.example.modid.proxy.CommonProxy")
+  var proxy: IProxy = null;
   /**
    * <a href="https://cleanroommc.com/wiki/forge-mod-development/event#overview">
    * Take a look at how many FMLStateEvents you can listen to via the @Mod.EventHandler annotation here
