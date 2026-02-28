@@ -2,7 +2,7 @@ pluginManagement {
     repositories {
         mavenCentral()
         maven {
-            setUrl("https://maven.neoforged.net/releases")
+            setUrl("https://maven.outlands.top/releases")
         }
         maven {
             setUrl("https://maven.minecraftforge.net/")

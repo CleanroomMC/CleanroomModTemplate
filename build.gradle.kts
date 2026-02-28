@@ -4,9 +4,9 @@ plugins {
     java
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "2.3.0"
+    kotlin("jvm") version "2.3.10"
     id("com.gradleup.shadow") version "9.3.0"
-    id("xyz.wagyourtail.unimined") version "1.4.9-kappa"
+    id("xyz.wagyourtail.unimined") version "1.4.10-kappa"
     id("net.kyori.blossom") version "2.1.0"
 }
 
@@ -67,7 +67,7 @@ unimined.minecraft {
         if (propertyBool("use_access_transformer")) {
             accessTransformer("${rootProject.projectDir}/src/main/resources/${propertyString("access_transformer_locations")}")
         }
-        loader("0.3.31-alpha")
+        loader("0.4.4-alpha")
         runs.auth.username = property("minecraft_username").toString()
         runs.all {
             val extraArgs = propertyString("extra_jvm_args")
