@@ -18,7 +18,7 @@ fun Project.propertyStringList(key: String): List<String> = propertyStringList(k
 fun Project.propertyStringList(
     key: String,
     delimit: String,
-): List<String> = propertyString(key).split(delimit).filter { it.isNotEmpty() }
+): List<String> = propertyString(key).split(delimit).filter { it.isNotBlank() }
 
 fun Project.assertProperty(propertyName: String) {
     val v = findProperty(propertyName)?.toString() ?: throw GradleException("Property $propertyName is not defined!")

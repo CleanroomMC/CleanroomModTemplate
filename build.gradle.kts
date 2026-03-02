@@ -48,6 +48,10 @@ java {
     }
 }
 
+kotlin {
+    jvmToolchain(21)
+}
+
 configurations {
     val contain by creating
     implementation { extendsFrom(contain) }
@@ -141,7 +145,7 @@ sourceSets {
                 property("mod_name", propertyString("mod_name"))
                 property("mod_version", propertyString("mod_version"))
                 property("mod_description", propertyString("mod_description"))
-                property("mod_authors", "${propertyStringList("mod_authors", ",").joinToString(", ")}")
+                property("mod_authors", propertyStringList("mod_authors", ",").joinToString("\", \"") { it.trim() })
                 property("mod_credits", propertyString("mod_credits"))
                 property("mod_url", propertyString("mod_url"))
                 property("mod_update_json", propertyString("mod_update_json"))
