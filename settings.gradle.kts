@@ -1,5 +1,10 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal {
+            content {
+                excludeGroup("org.apache.logging.log4j")
+            }
+        }
         mavenCentral()
         maven {
             setUrl("https://maven.outlands.top/releases")
@@ -18,11 +23,6 @@ pluginManagement {
         }
         maven {
             setUrl("https://maven.outlands.top/releases")
-        }
-        gradlePluginPortal {
-            content {
-                excludeGroup("org.apache.logging.log4j")
-            }
         }
     }
 }

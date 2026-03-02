@@ -43,7 +43,7 @@ dependencies {
     // runtimeOnly = runtime dependency
     // compileOnly = compile time dependency
     // annotationProcessor = annotation processing dependencies
-    // contain = bundle dependency jars into final artifact, will extract them in mod loading. Please only do this to non-mod dependencies.
+    // contain = bundle dependency jars into final artifact, will extract them in mod loading. Can be used it as jar-in-jar
     // shadow = bundle dependencies into shadow output artifact (relocation configurable in shadowJar task)
     // modImplementation = mod dependency available at both compile time and runtime
     // modCompileOnly = mod dependency available only at compile time

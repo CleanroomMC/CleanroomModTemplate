@@ -1,13 +1,17 @@
-import xyz.wagyourtail.unimined.api.minecraft.task.RemapJarTask
+import org.jetbrains.gradle.ext.Gradle
+import org.jetbrains.gradle.ext.compiler
+import org.jetbrains.gradle.ext.runConfigurations
+import org.jetbrains.gradle.ext.settings
 
 plugins {
     java
     `java-library`
     `maven-publish`
     kotlin("jvm") version "2.3.10"
-    id("com.gradleup.shadow") version "9.3.0"
+    id("com.gradleup.shadow") version "9.3.2"
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.4.1"
     id("xyz.wagyourtail.unimined") version "1.4.10-kappa"
-    id("net.kyori.blossom") version "2.1.0"
+    id("net.kyori.blossom") version "2.2.0"
 }
 
 // Early Assertions
@@ -45,16 +49,15 @@ java {
 }
 
 configurations {
-    val embed by creating
     val contain by creating
-    implementation {
-        extendsFrom(embed, contain)
-    }
+    implementation { extendsFrom(contain) }
     val modCompileOnly by creating
     compileOnly { extendsFrom(modCompileOnly) }
     val modRuntimeOnly by creating
     runtimeOnly { extendsFrom(modRuntimeOnly) }
 }
+
+val remapTaskName = if (propertyBool("enable_shadow")) "remapShadowJar" else "remapJar"
 
 unimined.minecraft {
     version("1.12.2")
@@ -88,27 +91,21 @@ unimined.minecraft {
 
     defaultRemapJar = false
 
-    if (propertyBool("enable_shadow")) {
-        remap(tasks.shadowJar.get()) {
-            mixinRemap {
-                enableBaseMixin()
-                enableMixinExtra()
-                disableRefmap()
-            }
-        }
-    } else {
-        remap(tasks.jar.get()) {
-            mixinRemap {
-                enableBaseMixin()
-                enableMixinExtra()
-                disableRefmap()
-            }
+    val jarTaskName = if (propertyBool("enable_shadow")) "shadowJar" else "jar"
+
+    remap(tasks.named(jarTaskName).get()) {
+        mixinRemap {
+            enableBaseMixin()
+            enableMixinExtra()
+            disableRefmap()
         }
     }
 
     mods {
         val modCompileOnly by configurations.getting
+        val modRuntimeOnly by configurations.getting
         remap(modCompileOnly)
+        remap(modRuntimeOnly)
     }
 }
 
@@ -117,7 +114,7 @@ dependencies {
         implementation("com.cleanroommc:assetmover:${propertyString("asset_mover_version")}")
     }
     if (propertyBool("enable_junit_testing")) {
-        testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+        testImplementation("org.junit.jupiter:junit-jupiter:6.0.2")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 }
@@ -125,35 +122,6 @@ dependencies {
 apply(plugin = "dependencies")
 
 tasks.processResources {
-
-    inputs.property("mod_id", propertyString("mod_id"))
-    inputs.property("mod_name", propertyString("mod_name"))
-    inputs.property("mod_version", propertyString("mod_version"))
-    inputs.property("mod_description", propertyString("mod_description"))
-    inputs.property("mod_authors", propertyStringList("mod_authors", ",").joinToString(", "))
-    inputs.property("mod_credits", propertyString("mod_credits"))
-    inputs.property("mod_url", propertyString("mod_url"))
-    inputs.property("mod_update_json", propertyString("mod_update_json"))
-    inputs.property("mod_logo_path", propertyString("mod_logo_path"))
-
-    val filterList = listOf("mcmod.info", "pack.mcmeta")
-
-    filesMatching(filterList) {
-        expand(
-            mapOf(
-                "mod_id" to propertyString("mod_id"),
-                "mod_name" to propertyString("mod_name"),
-                "mod_version" to propertyString("mod_version"),
-                "mod_description" to propertyString("mod_description"),
-                "mod_authors" to propertyStringList("mod_authors", ",").joinToString(", "),
-                "mod_credits" to propertyString("mod_credits"),
-                "mod_url" to propertyString("mod_url"),
-                "mod_update_json" to propertyString("mod_update_json"),
-                "mod_logo_path" to propertyString("mod_logo_path"),
-            ),
-        )
-    }
-
     rename("(.+_at.cfg)", "META-INF/$1")
 }
 
@@ -168,12 +136,49 @@ sourceSets {
                 val modId = propertyString("mod_id")
                 property("package", "$rootPackage.$modId")
             }
+            resources {
+                property("mod_id", propertyString("mod_id"))
+                property("mod_name", propertyString("mod_name"))
+                property("mod_version", propertyString("mod_version"))
+                property("mod_description", propertyString("mod_description"))
+                property("mod_authors", "${propertyStringList("mod_authors", ",").joinToString(", ")}")
+                property("mod_credits", propertyString("mod_credits"))
+                property("mod_url", propertyString("mod_url"))
+                property("mod_update_json", propertyString("mod_update_json"))
+                property("mod_logo_path", propertyString("mod_logo_path"))
+            }
         }
     }
 }
 
 if (!propertyBool("enable_shadow")) {
     tasks.shadowJar { enabled = false }
+}
+
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+    project {
+        settings {
+            runConfigurations {
+                add(Gradle("1. Build").apply {
+                    setProperty("taskNames", listOf("build"))
+                })
+                add(Gradle("2. Run Client").apply {
+                    setProperty("taskNames", listOf("runClient"))
+                })
+                add(Gradle("3. Run Server").apply {
+                    setProperty("taskNames", listOf("runServer"))
+                })
+            }
+            compiler.javac {
+                afterEvaluate {
+                    javacAdditionalOptions = "-encoding utf8"
+                }
+            }
+        }
+    }
 }
 
 tasks.jar {
@@ -204,11 +209,7 @@ tasks.jar {
             attributes(attributeMap)
         }
     }
-    if (propertyBool("enable_shadow")) {
-        finalizedBy(tasks.named("remapShadowJar"))
-    } else {
-        finalizedBy(tasks.named("remapJar"))
-    }
+    finalizedBy(tasks.named(remapTaskName).get())
 }
 
 tasks.shadowJar {
@@ -216,7 +217,7 @@ tasks.shadowJar {
     archiveClassifier = "shadow"
 }
 
-tasks.named<RemapJarTask>("remapJar") {
+tasks.named(remapTaskName) {
     doFirst {
         logging.captureStandardOutput(LogLevel.INFO)
     }
