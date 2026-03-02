@@ -135,7 +135,7 @@ sourceSets {
                 property('mod_name', propertyString('mod_name'))
                 property('mod_version', propertyString('mod_version'))
                 property('mod_description', propertyString('mod_description'))
-                property('mod_authors', "${propertyStringList('mod_authors', ',').join(', ')}")
+                property('mod_authors', propertyStringList('mod_authors', ',').collect {it.strip()}.join('", "'))
                 property('mod_credits', propertyString('mod_credits'))
                 property('mod_url', propertyString('mod_url'))
                 property('mod_update_json', propertyString('mod_update_json'))
@@ -152,21 +152,21 @@ idea {
     project {
         settings {
             runConfigurations {
-                "1. Build"(Gradle) {
+                '1. Build'(Gradle) {
                     taskNames = ["build"]
                 }
-                "2. Run Client"(Gradle) {
+                '2. Run Client'(Gradle) {
                     taskNames = ["runClient"]
                 }
-                "3. Run Server"(Gradle) {
+                '3. Run Server'(Gradle) {
                     taskNames = ["runServer"]
                 }
             }
             compiler.javac {
                 afterEvaluate {
-                    javacAdditionalOptions = "-encoding utf8"
+                    javacAdditionalOptions = '-encoding utf8'
                     moduleJavacAdditionalOptions = [
-                            (project.name + ".main"): tasks.compileJava.options.compilerArgs.collect { '"' + it + '"' }.join(' ')
+                            (project.name + '.main'): tasks.compileJava.options.compilerArgs.collect { '"' + it + '"' }.join(' ')
                     ]
                 }
             }
