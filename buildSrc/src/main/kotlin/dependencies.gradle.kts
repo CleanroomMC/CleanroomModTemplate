@@ -5,6 +5,7 @@ plugins {
 repositories {
     // Other repositories described by default:
     // CleanroomMC: https://maven.cleanroommc.com
+    mavenCentral()
     maven {
         name = "CurseMaven"
         setUrl("https://curse.cleanroommc.com")
@@ -21,7 +22,7 @@ repositories {
 }
 dependencies {
     compileOnly("com.cleanroommc:sponge-mixin:0.20.12+mixin.0.8.7")
-    implementation("io.github.chaosunity.forgelin:Forgelin-Continuous:2.3.0.0")
+    implementation("io.github.chaosunity.forgelin:Forgelin-Continuous:2.3.10.0")
     if (propertyBool("enable_lwjglx")) {
         compileOnly("com.cleanroommc:lwjglx:1.0.0")
     }
