@@ -1,6 +1,7 @@
 package com.example.modid
 
 import com.example.modid.proxy.IProxy
+import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.{Mod, SidedProxy}
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.apache.logging.log4j.LogManager
@@ -21,5 +22,7 @@ object ExampleMod {
   @Mod.EventHandler 
   def preInit(event: FMLPreInitializationEvent): Unit = {
     ExampleMod.LOGGER.info("Hello From {}!", Reference.MOD_NAME)
+    LOGGER.info("Proxy is {}", proxy)
+    LOGGER.info("Language: {}", Minecraft.getMinecraft.getLanguageManager.getCurrentLanguage)
   }
 }
