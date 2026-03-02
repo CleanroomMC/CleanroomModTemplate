@@ -23,7 +23,7 @@ Collection<String> propertyStringList(String key) {
 }
 
 Collection<String> propertyStringList(String key, String delimit) {
-    return propertyString(key).split(delimit).findAll { !it.isEmpty() }
+    return propertyString(key).split(delimit).findAll { !it.isBlank() }
 }
 
 private Object $property(String key) {
