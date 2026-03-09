@@ -18,6 +18,7 @@ repositories {
         name = "CleanroomMaven"
         url = uri("https://maven.cleanroommc.com")
     }
+    mavenCentral()
     mavenLocal() // Must be last for caching to work
 }
 dependencies {

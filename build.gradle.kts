@@ -10,7 +10,7 @@ plugins {
     kotlin("jvm") version "2.3.10"
     id("com.gradleup.shadow") version "9.3.2"
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.4.1"
-    id("xyz.wagyourtail.unimined") version "1.4.10-kappa"
+    id("xyz.wagyourtail.unimined") version "1.4.14-kappa"
     id("net.kyori.blossom") version "2.2.0"
 }
 
