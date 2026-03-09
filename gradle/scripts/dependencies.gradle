@@ -15,6 +15,7 @@ repositories {
         name "outlandsReleases"
         url "https://maven.arcseekers.com/releases"
     }
+    mavenCentral()
     mavenLocal() // Must be last for caching to work
 }
 
