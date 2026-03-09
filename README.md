@@ -1,5 +1,8 @@
 # CleanroomModTemplate
-Mod development template for Cleanroom, uses Unimined
+Mod development template for Cleanroom, uses a custom [Unimined fork](https://github.com/kappa-maintainer/Unimined) ([original](https://github.com/unimined/Unimined))
+
+### WARNING: Custom Unimined Fork
+May have issues, report here or [here](https://github.com/kappa-maintainer/Unimined) when you encountered impossible field names or impossible Scala compiler errors. 
 
 ## DOs and DON'Ts
 ### Choose Branch
@@ -14,7 +17,6 @@ There are 4 branches available:
 - kotlin
 
 If you want to use non-main branches, after clicked *Create a new repository* under *Use this template*, check the *Include all branches* checkbox.
-
 
 ### Running Client or Server
 If you are using IntelliJ, **DO NOT** use the `Minecraft Client` configure with a blue icon. Just use the `2. Run Client` Gradle task.
