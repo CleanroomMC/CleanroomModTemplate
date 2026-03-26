@@ -7,10 +7,10 @@ plugins {
     java
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "2.3.10"
-    id("com.gradleup.shadow") version "9.3.2"
+    kotlin("jvm") version "2.3.20"
+    id("com.gradleup.shadow") version "9.4.0"
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.4.1"
-    id("xyz.wagyourtail.unimined") version "1.4.14-kappa"
+    id("xyz.wagyourtail.unimined") version "1.4.16-kappa"
     id("net.kyori.blossom") version "2.2.0"
 }
 
@@ -38,7 +38,7 @@ base {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
     if (propertyBool("generate_sources_jar")) {
         withSourcesJar()
@@ -49,7 +49,7 @@ java {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }
 
 configurations {
@@ -74,7 +74,7 @@ unimined.minecraft {
         if (propertyBool("use_access_transformer")) {
             accessTransformer("${rootProject.projectDir}/src/main/resources/${propertyString("access_transformer_locations")}")
         }
-        loader("0.4.4-alpha")
+        loader("0.5.6-alpha")
         runs.auth.username = property("minecraft_username").toString()
         runs.all {
             val extraArgs = propertyString("extra_jvm_args")
@@ -231,15 +231,15 @@ tasks.named(remapTaskName) {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 tasks.test {
     useJUnitPlatform()
     javaLauncher =
         javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(25)
         }
 
     if (propertyBool("show_testing_output")) {

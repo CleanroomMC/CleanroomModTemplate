@@ -8,6 +8,10 @@ repositories {
     mavenCentral()
     maven {
         name = "CurseMaven"
+        setUrl("https://cursemaven.com")
+    }
+    maven {
+        name = "CleanroomCurseMaven"
         setUrl("https://curse.cleanroommc.com")
     }
     maven {
