@@ -4,12 +4,16 @@ repositories {
     // Other repositories described by default:
     // CleanroomMC: https://maven.cleanroommc.com
     maven {
-        name 'CurseMaven'
-        url 'https://curse.cleanroommc.com'
+        name = 'CurseMaven'
+        url = 'https://cursemaven.com'
     }
     maven {
-        name 'Modrinth'
-        url 'https://api.modrinth.com/maven'
+        name = 'CleanroomCurseMaven'
+        url = 'https://curse.cleanroommc.com'
+    }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
     }
     maven {
         name "outlandsReleases"
