@@ -15,18 +15,18 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'temurin'
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@v6
         with:
-          gradle-version: 9.3.1
+          gradle-version: 9.4.1
         name: Set up Gradle
       - name: Add permission
         run: chmod +x ./gradlew
       - name: Execute Gradle build
         run: ./gradlew build
 
-      - uses: ncipollo/release-action@v1.20.0
+      - uses: ncipollo/release-action@v1.21.0
         with:
           artifacts: "build/libs/*"
           generateReleaseNotes: true
