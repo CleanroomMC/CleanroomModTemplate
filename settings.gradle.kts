@@ -7,7 +7,7 @@ pluginManagement {
         }
         mavenCentral()
         maven {
-            setUrl("https://maven.outlands.top/releases")
+            setUrl("https://maven.arcseekers.com/releases")
         }
         maven {
             setUrl("https://maven.minecraftforge.net/")
@@ -17,12 +17,6 @@ pluginManagement {
         }
         maven {
             setUrl("https://maven.wagyourtail.xyz/releases")
-        }
-        maven {
-            setUrl("https://maven.wagyourtail.xyz/snapshots")
-        }
-        maven {
-            setUrl("https://maven.outlands.top/releases")
         }
     }
 }
