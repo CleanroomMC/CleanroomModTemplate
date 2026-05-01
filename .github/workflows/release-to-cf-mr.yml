@@ -22,7 +22,7 @@ jobs:
           
       - uses: gradle/actions/setup-gradle@v6
         with:
-          gradle-version: 9.4.1
+          gradle-version: 9.5.0
         name: Set up Gradle
         
       - name: Add permission
@@ -35,7 +35,7 @@ jobs:
         id: changes
         uses: simbo/changes-between-tags-action@v1
 
-      - uses: c@v3.3.0
+      - uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           # Only include this section if you wish to publish
           # your assets on Modrinth.
