@@ -69,9 +69,9 @@ unimined.minecraft {
         if (propertyBool('use_access_transformer')) {
             accessTransformer "${rootProject.projectDir}/src/main/resources/${propertyString('access_transformer_locations')}"
         }
-        loader "0.5.6-alpha"
-        runs.auth.username = minecraft_username
+        loader "0.5.9-alpha"
         runs.all {
+            args += ['--username', minecraft_username]
             def extraArgs = propertyString('extra_jvm_args')
             if (extraArgs != null && !extraArgs.trim().isEmpty()) {
                 jvmArgs += extraArgs.split { "\\s+" }.toList()
