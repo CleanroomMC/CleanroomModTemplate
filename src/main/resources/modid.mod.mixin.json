@@ -2,7 +2,7 @@
   "required": true,
   "package": "com.example.modid.mixin.mod",
   "plugin": "com.example.modid.ModMixinConfigPlugin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_25",
   "target": "@env(MOD)",
   "client": [
     "hei.JustEnoughItemsMixin"
