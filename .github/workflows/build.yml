@@ -12,15 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Set up JDK
       uses: actions/setup-java@v5
       with:
         java-version: '25'
         distribution: 'temurin'
     - uses: gradle/actions/setup-gradle@v6
-      with:
-        gradle-version: 9.6.1
       name: Set up Gradle
     - name: Add permission
       run: chmod +x ./gradlew
