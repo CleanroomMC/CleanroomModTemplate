@@ -33,8 +33,8 @@ dependencies {
         compileOnly("com.cleanroommc:lwjglx:1.0.0")
     }
 
-    add("modImplementation", "io.github.chaosunity.forgelin:Forgelin-Continuous:2.4.0.0")
-    add("modImplementation", "mezz:jei:4.33.0:dev")
+    add("modLibrary", "io.github.chaosunity.forgelin:Forgelin-Continuous:2.4.0.0:dev")
+    add("modLibrary", "mezz:jei:4.33.0:dev")
 
     // Example - Dependency descriptor:
     // 'com.google.code.gson:gson:2.8.6' << group: com.google.code.gson, name:gson, version:2.8.6
@@ -57,6 +57,7 @@ dependencies {
     // shadow = bundle dependencies into shadow output artifact (relocation configurable in shadowJar task)
     // modImplementation = mod dependency available at both compile time and runtime
     // modCompileOnly = mod dependency available only at compile time
+    // modLibrary = won't be remap but will be forced injected into classpath later
 
     // Transitive dependencies:
     // (Dependencies that your dependency depends on)

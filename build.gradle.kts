@@ -1,8 +1,8 @@
 import org.jetbrains.gradle.ext.Gradle
 import org.jetbrains.gradle.ext.compiler
 import org.jetbrains.gradle.ext.runConfigurations
-import org.jetbrains.gradle.ext.taskTriggers
 import org.jetbrains.gradle.ext.settings
+import org.jetbrains.gradle.ext.taskTriggers
 
 plugins {
     java
@@ -11,7 +11,7 @@ plugins {
     kotlin("jvm") version "2.4.0"
     id("com.gradleup.shadow") version "9.5.1"
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.4.1"
-    id("xyz.wagyourtail.unimined") version "1.4.35-kappa"
+    id("xyz.wagyourtail.unimined") version "1.4.36-kappa"
     id("net.kyori.blossom") version "2.2.0"
 }
 
@@ -180,9 +180,14 @@ sourceSets {
                 property("mod_name", mod_name)
                 property("mod_version", mod_version)
                 property("mod_description", mod_description)
-                property("mod_authors", mod_authors.takeIf { it.isNotBlank() }
-                    ?.split(",")?.filter { it.isNotBlank() }
-                    ?.joinToString("\", \"") { it.trim() } ?: "")
+                property(
+                    "mod_authors",
+                    mod_authors
+                        .takeIf { it.isNotBlank() }
+                        ?.split(",")
+                        ?.filter { it.isNotBlank() }
+                        ?.joinToString("\", \"") { it.trim() } ?: "",
+                )
                 property("mod_credits", mod_credits)
                 property("mod_url", mod_url)
                 property("mod_update_json", mod_update_json)
@@ -204,15 +209,21 @@ idea {
     project {
         settings {
             runConfigurations {
-                add(Gradle("1. Build").apply {
-                    setProperty("taskNames", listOf("build"))
-                })
-                add(Gradle("2. Run Client").apply {
-                    setProperty("taskNames", listOf("runClient"))
-                })
-                add(Gradle("3. Run Server").apply {
-                    setProperty("taskNames", listOf("runServer"))
-                })
+                add(
+                    Gradle("1. Build").apply {
+                        setProperty("taskNames", listOf("build"))
+                    },
+                )
+                add(
+                    Gradle("2. Run Client").apply {
+                        setProperty("taskNames", listOf("runClient"))
+                    },
+                )
+                add(
+                    Gradle("3. Run Server").apply {
+                        setProperty("taskNames", listOf("runServer"))
+                    },
+                )
             }
             compiler.javac {
                 afterEvaluate {
@@ -261,15 +272,6 @@ tasks.jar {
 tasks.shadowJar {
     configurations.add(project.configurations.shadow)
     archiveClassifier = "shadow"
-}
-
-tasks.named(remapTaskName) {
-    doFirst {
-        logging.captureStandardOutput(LogLevel.INFO)
-    }
-    doLast {
-        logging.captureStandardOutput(LogLevel.QUIET)
-    }
 }
 
 java {
