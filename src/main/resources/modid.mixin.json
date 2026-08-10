@@ -1,6 +1,7 @@
 {
   "required": true,
   "package": "com.example.modid.mixin",
+  "plugin": "com.example.modid.ModMixinConfigPlugin",
   "compatibilityLevel": "JAVA_25",
   "target": "@env(DEFAULT)",
   "client": [
