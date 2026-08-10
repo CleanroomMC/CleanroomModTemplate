@@ -1,12 +1,14 @@
 {
   "required": true,
   "package": "com.example.modid.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_25",
   "target": "@env(DEFAULT)",
   "client": [
     "MinecraftMixin"
   ],
-  "mixins": [],
+  "mixins": [
+    "mod.hei.JustEnoughItemsMixin"
+  ],
   "server": [],
   "setSourceFile": true,
   "minVersion": "0.8.7"

@@ -59,7 +59,7 @@ unimined.minecraft {
         }
         loader "0.6.10-alpha"
         runs.all {
-            systemProperty("crl.dev.mixin", "${mod_id}.default.mixin.json,${mod_id}.mod.mixin.json")
+            systemProperty("crl.dev.mixin", "${mod_id}.mixin.json")
             args += ['--username', minecraft_username]
             def extraArgs = extra_jvm_args
             if (extraArgs != null && !extraArgs.trim().isEmpty()) {
@@ -186,7 +186,7 @@ jar {
         manifest {
             def attribute_map = [:]
             attribute_map['ModType'] = "CRL"
-            attribute_map['MixinConfigs'] = "${mod_id}.default.mixin.json,${mod_id}.mod.mixin.json"
+            attribute_map['MixinConfigs'] = "${mod_id}.mixin.json"
             if (configurations.contain.size() > 0) {
                 attribute_map['ContainedDeps'] = configurations.contain.collect { it.name }.join(' ')
                 attribute_map['NonModDeps'] = true
