@@ -8,5 +8,8 @@
 	"credits": "{{ mod_credits }}",
 	"url": "{{ mod_url }}",
 	"updateJSON": "{{ mod_update_json }}",
-	"logoFile": "{{ mod_logo_path }}"
+	"logoFile": "{{ mod_logo_path }}",
+	"modProperties": {
+		"issueTrackerUrl": "{{ mod_issue_tracker }}"
+	}
 }]

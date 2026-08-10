@@ -10,7 +10,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           
@@ -21,8 +21,6 @@ jobs:
           distribution: 'temurin'
           
       - uses: gradle/actions/setup-gradle@v6
-        with:
-          gradle-version: 9.6.1
         name: Set up Gradle
         
       - name: Add permission
@@ -35,7 +33,7 @@ jobs:
         id: changes
         uses: simbo/changes-between-tags-action@v1
 
-      - uses: Kir-Antipov/mc-publish@v3.3.0
+      - uses: Kir-Antipov/mc-publish@v3
         with:
           # Only include this section if you wish to publish
           # your assets on Modrinth.

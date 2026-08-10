@@ -4,7 +4,7 @@ plugins {
     id 'maven-publish'
     id 'com.gradleup.shadow' version '9.5.1'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.4.1'
-    id 'xyz.wagyourtail.unimined' version '1.4.26-kappa'
+    id 'xyz.wagyourtail.unimined' version '1.4.35-kappa'
     id 'net.kyori.blossom' version '2.2.0'
 }
 
@@ -57,7 +57,7 @@ unimined.minecraft {
         if (use_access_transformer.toBoolean()) {
             accessTransformer "${rootProject.projectDir}/src/main/resources/$access_transformer_locations"
         }
-        loader "0.5.17-alpha"
+        loader "0.6.10-alpha"
         runs.all {
             systemProperty("crl.dev.mixin", "${mod_id}.default.mixin.json,${mod_id}.mod.mixin.json")
             args += ['--username', minecraft_username]
@@ -128,6 +128,7 @@ sourceSets {
                 property('mod_url', mod_url)
                 property('mod_update_json', mod_update_json)
                 property('mod_logo_path', mod_logo_path)
+                property('mod_issue_tracker', mod_issue_tracker)
             }
         }
     }
@@ -159,7 +160,7 @@ idea {
                 }
             }
             taskTriggers {
-                afterSync tasks.named("genSources")
+                beforeSync tasks.named("genSources")
             }
         }
     }
