@@ -1,9 +1,9 @@
-val publish_to_maven: String by project
+val publish_to_maven: String = project.property("publish_to_maven") as String
 val publishToMaven = publish_to_maven.toBoolean()
-val maven_name: String by project
-val maven_url: String by project
-val root_package: String by project
-val mod_id: String by project
+val maven_name: String = project.property("maven_name") as String
+val maven_url: String = project.property("maven_url") as String
+val root_package: String = project.property("root_package") as String
+val mod_id: String = project.property("mod_id") as String
 
 plugins {
     `maven-publish`

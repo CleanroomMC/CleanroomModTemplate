@@ -11,50 +11,51 @@ plugins {
     kotlin("jvm") version "2.4.0"
     id("com.gradleup.shadow") version "9.5.1"
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.4.1"
-    id("xyz.wagyourtail.unimined") version "1.4.26-kappa"
+    id("xyz.wagyourtail.unimined") version "1.4.35-kappa"
     id("net.kyori.blossom") version "2.2.0"
 }
 
-val mod_version: String by project
-val root_package: String by project
-val mod_id: String by project
-val mod_name: String by project
+val mod_version: String = project.property("mod_version") as String
+val root_package: String = project.property("root_package") as String
+val mod_id: String = project.property("mod_id") as String
+val mod_name: String = project.property("mod_name") as String
 
 require(mod_version.isNotEmpty()) { "mod_version is empty!" }
 require(root_package.isNotEmpty()) { "root_package is empty!" }
 require(mod_id.isNotEmpty()) { "mod_id is empty!" }
 require(mod_name.isNotEmpty()) { "mod_name is empty!" }
 
-val generate_sources_jar: String by project
+val generate_sources_jar: String = project.property("generate_sources_jar") as String
 val generateSourcesJar = generate_sources_jar.toBoolean()
-val generate_javadocs_jar: String by project
+val generate_javadocs_jar: String = project.property("generate_javadocs_jar") as String
 val generateJavadocsJar = generate_javadocs_jar.toBoolean()
-val minecraft_username: String by project
-val extra_jvm_args: String by project
-val enable_shadow: String by project
+val minecraft_username: String = project.property("minecraft_username") as String
+val extra_jvm_args: String = project.property("extra_jvm_args") as String
+val enable_shadow: String = project.property("enable_shadow") as String
 val enableShadow = enable_shadow.toBoolean()
-val use_access_transformer: String by project
+val use_access_transformer: String = project.property("use_access_transformer") as String
 val useAccessTransformer = use_access_transformer.toBoolean()
-val is_coremod: String by project
+val is_coremod: String = project.property("is_coremod") as String
 val isCoremod = is_coremod.toBoolean()
-val coremod_includes_mod: String by project
+val coremod_includes_mod: String = project.property("coremod_includes_mod") as String
 val coremodIncludesMod = coremod_includes_mod.toBoolean()
-val coremod_plugin_class_name: String by project
-val use_asset_mover: String by project
+val coremod_plugin_class_name: String = project.property("coremod_plugin_class_name") as String
+val use_asset_mover: String = project.property("use_asset_mover") as String
 val useAssetMover = use_asset_mover.toBoolean()
-val asset_mover_version: String by project
-val enable_junit_testing: String by project
+val asset_mover_version: String = project.property("asset_mover_version") as String
+val enable_junit_testing: String = project.property("enable_junit_testing") as String
 val enableJunitTesting = enable_junit_testing.toBoolean()
-val show_testing_output: String by project
+val show_testing_output: String = project.property("show_testing_output") as String
 val showTestingOutput = show_testing_output.toBoolean()
-val enable_foundation_debug: String by project
+val enable_foundation_debug: String = project.property("enable_foundation_debug") as String
 val enableFoundationDebug = enable_foundation_debug.toBoolean()
-val mod_description: String by project
-val mod_authors: String by project
-val mod_credits: String by project
-val mod_url: String by project
-val mod_update_json: String by project
-val mod_logo_path: String by project
+val mod_description: String = project.property("mod_description") as String
+val mod_authors: String = project.property("mod_authors") as String
+val mod_credits: String = project.property("mod_credits") as String
+val mod_url: String = project.property("mod_url") as String
+val mod_update_json: String = project.property("mod_update_json") as String
+val mod_logo_path: String = project.property("mod_logo_path") as String
+val mod_issue_tracker: String = project.property("mod_issue_tracker") as String
 
 val access_transformer_locations: String = "${mod_id}_at.cfg"
 
@@ -92,11 +93,11 @@ kotlin {
 }
 
 configurations {
-    val contain by creating
+    val contain = create("contain")
     implementation { extendsFrom(contain) }
-    val modCompileOnly by creating
+    val modCompileOnly = create("modCompileOnly")
     compileOnly { extendsFrom(modCompileOnly) }
-    val modRuntimeOnly by creating
+    val modRuntimeOnly = create("modRuntimeOnly")
     runtimeOnly { extendsFrom(modRuntimeOnly) }
 }
 
@@ -113,7 +114,7 @@ unimined.minecraft {
         if (useAccessTransformer) {
             accessTransformer("${rootProject.projectDir}/src/main/resources/$access_transformer_locations")
         }
-        loader("0.5.17-alpha")
+        loader("0.6.10-alpha")
         runs.all {
             args.addAll(listOf("--username", minecraft_username))
             if (extra_jvm_args.isNotEmpty()) {
@@ -144,10 +145,8 @@ unimined.minecraft {
     }
 
     mods {
-        val modCompileOnly by configurations.getting
-        val modRuntimeOnly by configurations.getting
-        remap(modCompileOnly)
-        remap(modRuntimeOnly)
+        remap(configurations.getByName("modCompileOnly"))
+        remap(configurations.getByName("modRuntimeOnly"))
     }
 }
 
@@ -188,6 +187,7 @@ sourceSets {
                 property("mod_url", mod_url)
                 property("mod_update_json", mod_update_json)
                 property("mod_logo_path", mod_logo_path)
+                property("mod_issue_tracker", mod_issue_tracker)
             }
         }
     }
@@ -220,7 +220,7 @@ idea {
                 }
             }
             taskTriggers {
-                afterSync(tasks.named("genSources"))
+                beforeSync(tasks.named("genSources"))
             }
         }
     }
@@ -229,7 +229,7 @@ idea {
 tasks.jar {
     archiveClassifier = "dev"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    val contain by configurations.getting
+    val contain = configurations.getByName("contain")
     if (!contain.isEmpty) {
         into("/") {
             from(contain)

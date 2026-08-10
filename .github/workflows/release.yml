@@ -11,22 +11,20 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           java-version: '25'
           distribution: 'temurin'
       - uses: gradle/actions/setup-gradle@v6
-        with:
-          gradle-version: 9.6.1
         name: Set up Gradle
       - name: Add permission
         run: chmod +x ./gradlew
       - name: Execute Gradle build
         run: ./gradlew build
 
-      - uses: ncipollo/release-action@v1.21.0
+      - uses: ncipollo/release-action@v1
         with:
           artifacts: "build/libs/*"
           generateReleaseNotes: true
