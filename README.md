@@ -26,6 +26,8 @@ You can find dependencies block in `gradle/scripts/dependencies.gradle`.
 
 No more `rfg.deobf()` or `fg.deobf`. You **MUST** add mods by using `modImplementation` or `modRuntimeOnly`, or the game will crash when running.
 
+Use `modLibrary` for libs/mods that you don't want to remap.
+
 ### Non-Mod Dependencies
 Two new configuration types `contain` and `shadow` are available, check more details in `dependencies.gradle`.
 
@@ -44,10 +46,11 @@ You should change its location to fit your new package name.
 You can find its template under `src/main/java-templates`.
 
 ### Mixin
-1. Rename json config file to include your modid. You will need one json per phase (`PRE_INIT`, `DEFAULT`, `MOD`) 
-2. Add your mixin classes there.
-3. Use `IMixinConfigPlugin` to control if certain mixin should be enabled. You can call `Loader.isModLoaded()` for `MOD` phase mixins.
-4. Don't worry about refmap, Unimined will handle it automatically. You can still `disableRefmap()` manually though
+1. Rename json config file to use your modid. 
+2. Add **all** your mixin classes there.
+3. Use `IMixinConfigPlugin` to control if certain mixin should be enabled.
+4. mixin classes will be passed to the plugin only when target class is loading, so you don't need to call `Loader.isModLoaded()`
+5. Don't worry about refmap, Unimined will handle it automatically. You can still `disableRefmap()` manually though
 
 ### Access Transformer
 You **MUST** write AT file in MCP name. It will be remapped back to SRG name in artifact jar.
