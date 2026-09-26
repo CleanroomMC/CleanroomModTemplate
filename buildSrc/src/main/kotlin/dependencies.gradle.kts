@@ -33,8 +33,8 @@ dependencies {
         compileOnly("com.cleanroommc:lwjglx:1.0.0")
     }
 
-    add("modLibrary", "io.github.chaosunity.forgelin:Forgelin-Continuous:2.4.0.0:dev")
-    add("modLibrary", "mezz:jei:4.33.0:dev")
+    add("modDevImplementation", "io.github.chaosunity.forgelin:Forgelin-Continuous:2.4.10.0:dev")
+    add("modDevImplementation", "mezz:jei:4.35.0:dev")
 
     // Example - Dependency descriptor:
     // 'com.google.code.gson:gson:2.8.6' << group: com.google.code.gson, name:gson, version:2.8.6

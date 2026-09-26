@@ -8,10 +8,10 @@ plugins {
     java
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "2.4.0"
-    id("com.gradleup.shadow") version "9.5.1"
+    kotlin("jvm") version "2.4.10"
+    id("com.gradleup.shadow") version "9.6.1"
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.4.1"
-    id("xyz.wagyourtail.unimined") version "1.4.36-kappa"
+    id("xyz.wagyourtail.unimined") version "1.4.43-kappa"
     id("net.kyori.blossom") version "2.2.0"
 }
 
@@ -114,7 +114,7 @@ unimined.minecraft {
         if (useAccessTransformer) {
             accessTransformer("${rootProject.projectDir}/src/main/resources/$access_transformer_locations")
         }
-        loader("0.6.10-alpha")
+        loader("0.6.13-alpha")
         runs.all {
             args.addAll(listOf("--username", minecraft_username))
             if (extra_jvm_args.isNotEmpty()) {
