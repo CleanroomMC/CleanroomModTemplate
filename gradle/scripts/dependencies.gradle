@@ -44,7 +44,9 @@ dependencies {
     // contain = bundle dependency jars into final artifact, will extract them in mod loading. Can be used it as jar-in-jar
     // shadow = bundle dependencies into shadow output artifact (relocation configurable in shadowJar task)
     // modImplementation = mod dependency available at both compile time and runtime
+    // modDevImplementation = like modImplementation, but without refmapping
     // modCompileOnly = mod dependency available only at compile time
+    // modRuntimeOnly = mod dependency available only at runtime
     // modLibrary = won't be remap but will be forced injected into classpath later
 
     // Transitive dependencies:
