@@ -118,7 +118,7 @@ unimined.minecraft {
         runs.all {
             args.addAll(listOf("--username", minecraft_username))
             if (extra_jvm_args.isNotEmpty()) {
-                jvmArgs(extra_jvm_args.split("\\s+"))
+                jvmArgs(extra_jvm_args.split(("\\s+")).toRegex())
             }
             if (enableFoundationDebug) {
                 systemProperties.apply {
