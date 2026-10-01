@@ -87,6 +87,11 @@ unimined.minecraft {
     }
 }
 
+// Remove the annoying blue icon by Unimined
+tasks.matching { it.name == 'genIntellijRuns' }.configureEach {
+    enabled = false
+}
+
 dependencies {
     if (use_asset_mover.toBoolean()) {
         implementation "com.cleanroommc:assetmover:${asset_mover_version}"
