@@ -8,8 +8,14 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
-class ExampleMod {
+@Mod(
+    modid = Reference.MOD_ID,
+    name = Reference.MOD_NAME,
+    version = Reference.VERSION,
+    modLanguage = "kotlin",
+    modLanguageAdapter = "io.github.chaosunity.forgelin.KotlinAdapter"
+)
+object ExampleMod {
     val logger: Logger = LogManager.getLogger(Reference.MOD_NAME)
 
     @SidedProxy(
