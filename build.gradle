@@ -18,12 +18,7 @@ tokenEnvoy {
     set 'VERSION', project.version
 }
 
-// TODO
-configurations.named('mergetool') {
-    resolutionStrategy.force(
-            'org.ow2.asm:asm:9.10.1',
-            'org.ow2.asm:asm-analysis:9.10.1',
-            'org.ow2.asm:asm-tree:9.10.1',
-            'org.ow2.asm:asm-util:9.10.1'
-    )
+// TODO: fundamental Foundation issue
+tasks.withType(JavaExec).configureEach {
+    systemProperty 'foundation.loadsall', 'true'
 }
