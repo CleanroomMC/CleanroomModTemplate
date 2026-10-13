@@ -5,13 +5,22 @@ plugins {
     id 'com.cleanroommc.tokenenvoy' version '1.1.0'
 }
 
-cleanroom {
-    mode = 'userdev'
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name 'CurseMaven'
+                url 'https://curse.cleanroommc.com'
+            }
+        }
+        filter {
+            includeGroup 'curse.maven'
+        }
+    }
 }
 
 dependencies {
-    // Point to locally built cleanroom userdev jar
-    cleanroomUserdev files(providers.gradleProperty('cleanroomUserDevJar'))
+    implementation cleanroom.userdev(providers.gradleProperty('cleanroom_version').get())
 }
 
 tokenEnvoy {
