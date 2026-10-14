@@ -64,6 +64,7 @@ cleanroom {
 
 tokenEnvoy {
     set 'MOD_VERSION', project.version
+    set 'MOD_AUTHORS', mod_authors.tokenize(',')*.trim().join('", "')
     set file('tokens.properties')
 }
 
