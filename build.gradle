@@ -11,6 +11,8 @@ base {
 }
 
 def accessTransformerNames = access_transformers.tokenize()
+def dependOnHei = depend_on_hei.toBoolean()
+def heiDependency = { dependOnHei ? it.requires('had-enough-items') : it.optional('had-enough-items') }
 
 conventions {
     if (mod_authors) {
@@ -18,10 +20,16 @@ conventions {
     }
     mods {
         if (curseforge_project_id) {
-            curseforge = curseforge_project_id
+            curseforge {
+                projectId = curseforge_project_id
+                heiDependency(it)
+            }
         }
         if (modrinth_project_id) {
-            modrinth = modrinth_project_id
+            modrinth {
+                projectId = modrinth_project_id
+                heiDependency(it)
+            }
         }
     }
 }
@@ -38,11 +46,27 @@ repositories {
             includeGroup 'curse.maven'
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name 'CleanroomMC'
+                url 'https://maven.cleanroommc.com'
+            }
+        }
+        filter {
+            includeGroup 'mezz'
+        }
+    }
 }
 
 dependencies {
     implementation cleanroom.userdev(cleanroom_version) {
         accessTransformers.from(accessTransformerNames.collect { "src/main/resources/META-INF/$it" })
+    }
+    if (dependOnHei) {
+        implementation 'mezz:jei:4.36.1:dev'
+    } else {
+        runtimeOnly 'mezz:jei:4.36.1:dev'
     }
 }
 
